@@ -1,11 +1,15 @@
 import HomeScreen from '@/screens/homescreen'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ScrollView, SafeAreaView} from 'react-native';
 export default function Index() {
   return (
-    <ScrollView>
+    <GestureHandlerRootView>
       <SafeAreaView>
-        <HomeScreen />
+        <ScrollView>
+          <HomeScreen />
+        </ScrollView>
       </SafeAreaView>
-    </ScrollView>
+    </GestureHandlerRootView>
+    
   );
 }

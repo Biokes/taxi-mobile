@@ -6,7 +6,9 @@ export default function NotFoundScreen() {
   return (
       <View style={styles.container}>
          <Text >This screen doesn't exist.</Text>
-         <Link href="/(tabs)/index">Go to home screen!</Link>
+          <Link href="/(tabs)/index" style={{ fontSize: 17}}>
+              Go to home screen!
+          </Link>
       </View>
   );
 }
