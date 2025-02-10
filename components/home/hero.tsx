@@ -7,6 +7,9 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import AntDesign from '@expo/vector-icons/AntDesign';
+// import {Link} from 'expo-router'
+
 
 const width = Dimensions.get('screen').width
 const styles = StyleSheet.create({
@@ -30,8 +33,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: 'black',
         marginBottom: 10,
-        width:150
-       
+        width:150,
+       justifyContent:'center'
     },
     ride: {
         fontSize: 12,
@@ -63,13 +66,15 @@ const styles = StyleSheet.create({
     }
 })
 export default function Hero() { 
-    const [data, setData] = useState<RegisterRequest>({
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone:''
-    })
-
+    const [data, setData] = useState<RegisterRequest>({firstname: '',lastname: '',email: '',phone:''})
+    const [isDataValid, setDataValid]= useState<boolean>(false)
+    const [isExclusiveSubsriptionLoading, setExclusiveSubscriptionLoading] = useState<boolean>(false)
+    const handleExclusiveSubscription = () => { 
+        setExclusiveSubscriptionLoading(true)
+    }
+    const validateForm = () => { 
+        return true
+    }
     return (
         <ScrollView>
             <ImageBackground source={{ uri: "https://res.cloudinary.com/depwujqik/image/upload/v1717091900/samples/cup-on-a-table.jpg" }} blurRadius={50}>
@@ -89,16 +94,19 @@ export default function Hero() {
                         <View style={{backgroundColor:'white', paddingInline:10}}>
                             <Text style={{flex:1,textAlign:'center',padding:4,fontSize:20, color:'#0076cb'}}>Get member exclusive rewards</Text>
                             <View style={{paddingInline:10, gap:3}}>
-                                <TextInput placeholder="Firstname" value={data.firstname} style={styles.input} onChangeText={(text) => setData({ ...data, firstname: text })} />
-                                <TextInput placeholder="Lastname" value={data.lastname} style={styles.input} onChangeText={(text) => setData({ ...data, lastname: text })} />
-                                <TextInput placeholder="Phone Number"  style={styles.input} onChangeText={(text) => setData({ ...data, phone: text })} 
+                                <TextInput placeholder="Firstname" value={data.firstname} style={styles.input} onChangeText={(text) => { setData({ ...data, firstname: text });validateForm()}} />
+                                <TextInput placeholder="Lastname" value={data.lastname} style={styles.input} onChangeText={(text) => { setData({ ...data, lastname: text }); validateForm()}} />
+                                <TextInput placeholder="Phone Number" style={styles.input} onChangeText={(text) => { setData({ ...data, phone: text }); validateForm()}} 
                                     keyboardType="phone-pad" autoCapitalize="none" autoComplete="email" textContentType="telephoneNumber" value={data.phone} />
                                 <TextInput placeholder="Email address"  style={styles.input}
                                     keyboardType="email-address" autoCapitalize="none" autoComplete="email" textContentType="emailAddress"
-                                    value={data.email} onChangeText={(text) => setData({ ...data, email: text })} />
+                                    value={data.email} onChangeText={(text) => { setData({ ...data, email: text }); validateForm()}} />
                                 <View style={{justifyContent:'center', alignItems:'center',flex:1, paddingBlock:10}}>
-                                    <TouchableOpacity style={styles.buttonText}>
-                                        <Text style={styles.ride}>sign up to ride</Text>
+                                    <TouchableOpacity style={styles.buttonText} onPress={handleExclusiveSubscription} disabled={!isExclusiveSubsriptionLoading && !isDataValid}>
+                                        {isExclusiveSubsriptionLoading ?
+                                            <Text style={styles.ride}>sign up to ride</Text> :
+                                            <AntDesign name="loading1" size={12} color="#0076cb" />
+                                        }
                                     </TouchableOpacity>
                                 </View>
                             
@@ -144,28 +152,71 @@ export default function Hero() {
                 <Text style={{ color: 'black', fontSize: 30, textTransform: 'capitalize' }}>welcome to us</Text>
                 
                 <View style={styles.pack}>
-                    <FontAwesome6 name="map-location" size={35} color="#0076cb"  />
+                    <FontAwesome6 name="map-location" size={40} color="#0076cb"  />
                     <Text style={styles.iconHeaderText}>Address Pickup</Text>
                     <Text style={styles.iconSmallerText}>It is a long established fact that is by the readable content of</Text>
                 </View>
                 <View style={styles.pack}>
                     <Text style={styles.iconHeaderText}>Air transfer</Text>
                     <Text style={styles.iconSmallerText}>It is a long established fact that is by the readable content of</Text>
-                    <Ionicons name="airplane-outline" size={35} color="#0076cb" />
+                    <Ionicons name="airplane-outline" size={40} color="#0076cb" />
                 </View>
                 
                 <View style={styles.pack}>
                     <Text style={styles.iconHeaderText}>Long distance</Text>
                     <Text>It is a long established fact that is by the readable content of</Text>
-                    <Entypo name="location" size={35} color="#0076cb" />
+                    <Entypo name="location" size={40} color="#0076cb" />
                 </View>
                 
                 <View style={styles.pack}>
                     <Text style={styles.iconHeaderText}>Taxi tours</Text>
                     <Text  style={styles.iconSmallerText}>It is a long established fact that is by the readable content of</Text>
-                    <MaterialCommunityIcons name="map-marker-distance" size={35} color="#0076cb" />
+                    <MaterialCommunityIcons name="map-marker-distance" size={40} color="#0076cb" />
                 </View>
-                
+            </View>
+            <ImageBackground source={{ uri: 'hkafn' }}>
+                <View style={{padding:15,flex:1, justifyContent:'center', alignItems:'center',gap:10}}>
+                    <Text style={{ fontSize: 25 }}>life's a journey {"\n"}take a taxi</Text>
+                    <TouchableOpacity style={styles.buttonText}>
+                        <Text style={styles.ride}>Book now</Text>
+                    </TouchableOpacity>
+                </View>
+            </ImageBackground>
+            <View>
+
+            </View>
+            <View style={{paddingBlock:40, backgroundColor:'#0076CB'}}>
+                <View>
+                    <FontAwesome6 name="map-location" size={20} color="#0076cb" />
+                    <Text style={{fontSize:15}}>our features</Text>
+                </View>
+
+                <View style={{flex:1,justifyContent:'center', alignItems:'center'}}>
+                    <Image source={{ uri: "https://cms.code4rest.com/wp118/wp-content/uploads/2024/09/about-01.jpg" }} style={{ height: 200, width: '80%' }} />
+                    <View style={{flex:1, flexDirection:'row', justifyContent:'center',alignItems:'center'}}>
+                        <Text style={{fontSize:20, color:'#0076cb'}}>$162/</Text>
+                        <Text style={{ fontSize: 20}}>Day</Text>
+                    </View>
+                    <Text style={{fontSize:20, textTransform:'capitalize'}}>mercedes benz</Text>
+                    <View style={styles.pack}>
+                        <View style={styles.pack}>
+                            <MaterialCommunityIcons name="truck-delivery-outline" size={20} color="#0076cb" />
+                            <Text style={{fontSize:15}}>luxury</Text>
+                        </View>
+                        <View style={styles.pack}>
+                            <MaterialCommunityIcons name="truck-delivery-outline" size={20} color="#0076cb" />
+                            <Text style={{fontSize:15}}>2 passengers</Text>
+                        </View>
+                        {/* <Link href="+not-found">see more</Link> */}
+                    </View>
+                    <View>
+                        <MaterialCommunityIcons name="gesture-tap-button" size={40} color="#0076cb" />
+                        <Text style={styles.iconHeaderText}>Book in Just 2 Tabs</Text>
+                        <Text style={[styles.iconSmallerText, { textAlign: 'center', flex: 1 }]}>
+                            It is a long established fact that a reader a by the readable looking at its layout.
+                        </Text>
+                    </View>
+                </View>
             </View>
       </ScrollView>
     )
